@@ -1,0 +1,14 @@
+<h1>Dealerships</h1>
+
+<%= link_to "New dealership", new_dealership_path %>
+
+<ul>
+  <% @dealerships.each do |dealership| %>
+    <li>
+      <div><%= dealership.name %></div>
+
+      <div><%= link_to "Edit", edit_dealership_path(dealership) %></div>
+      <div><%= link_to "Delete", dealership_path(dealership), data: { "turbo-method": :delete } %></div>
+    </li>
+  <% end %>
+</ul>

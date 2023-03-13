@@ -1,0 +1,15 @@
+<%= form_for(@vehicle) do |f| %>
+  <%= f.label :brand %>
+  <%= f.text_field :brand %>
+
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+
+  <%= f.label :model %>
+  <%= f.text_field :model %>
+
+  <%= f.label :year %>
+  <%= f.text_field :year %>
+
+  <%= f.submit "Save" %>
+<% end %>

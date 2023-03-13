@@ -1,0 +1,17 @@
+<h1>Vehicles</h1>
+
+<%= link_to "New vehicle", new_vehicle_path %>
+
+<ul>
+  <% @vehicles.each do |vehicle| %>
+    <li>
+      <div><%= vehicle.brand %></div>
+      <div><%= vehicle.name %></div>
+      <div><%= vehicle.model %></div>
+      <div><%= vehicle.year %></div>
+
+      <div><%= link_to "Edit", edit_vehicle_path(vehicle) %></div>
+      <div><%= link_to "Delete", vehicle_path(vehicle), data: { "turbo-method": :delete } %></div>
+    </li>
+  <% end %>
+</ul>
