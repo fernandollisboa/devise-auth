@@ -10,6 +10,7 @@ class VehiclesController < ApplicationController
   def create
     @vehicle = Vehicle.new(vehicle_params)
 
+    @vehicle.dealership = Dealership.last
     if @vehicle.save
       redirect_to vehicles_url
     else

@@ -1,3 +1,5 @@
 class Vehicle < ApplicationRecord
-  validates :brand, :name, :model, :year, presence: true
+  belongs_to :dealership
+
+  validates :brand, :name, :model, :year, :dealership, presence: true
 end
