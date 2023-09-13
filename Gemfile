@@ -59,6 +59,8 @@ group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'guard-rspec'
   gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  gem 'faker'
   gem 'rubocop-factory_bot'
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
