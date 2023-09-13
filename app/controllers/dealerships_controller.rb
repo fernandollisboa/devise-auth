@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DealershipsController < ApplicationController
   def index
     @dealerships = Dealership.all

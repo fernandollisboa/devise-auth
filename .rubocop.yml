@@ -1,0 +1,43 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-factory_bot
+  - rubocop-performance
+
+AllCops:
+  Exclude:
+    - './bundle/**/*'
+    - './config/environments/**'
+    - './bin/*'
+    - './db/schema.rb'
+  SuggestExtension: false
+
+Style/Documentation:
+  Enabled: false
+Style/IfUnlessModifier:
+  Enabled: false
+Style/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
+Style/GuardClause:
+  Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - app/views/**/*
+    - spec/**/*
+
+Metrics/BlockLength:
+  Max: 30
+  Exclude:
+    - /spec/**/*
+Metrics/MethodLength:
+  Max: 20
+
+RSpec/ExpectChange:
+  Enabled: false
+RSpec/ExampleLength:
+  Max: 20
+RSpec/NestedGroups:
+  Max: 4
+RSpec/MultipleMemoizedHelpers:
+  Max: 8
