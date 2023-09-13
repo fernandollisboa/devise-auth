@@ -1,0 +1,33 @@
+<%= form_with model: @user do |f| %>
+  <section>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
+
+    <%= f.label :role %>
+    <%= f.select :role, [['admin', :admin], ['dealership', :dealership]] %>
+
+    <%= f.label :dealership_id %>
+    <%= f.text_field :dealership_id %>
+
+    <%= f.submit "Save" %>
+    <% if @user.errors.any? %>
+        <section>
+          <ul>
+            <% @user.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </section>
+    <% end %>
+  </section>
+<% end %>
+
