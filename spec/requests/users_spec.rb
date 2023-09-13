@@ -4,21 +4,21 @@ require 'rails_helper'
 
 RSpec.describe 'User', type: :request do
   describe 'GET /users' do
-    context 'when no players are registered' do
+    context 'when no users are registered' do
       it 'returns http status 200' do
         get '/users'
 
         expect(response).to have_http_status(:ok)
       end
 
-      it 'renders an empty list message', aggregate_failures: true do
+      it 'renders message informing that the user list is empty' do
         get '/users'
 
         expect(response.body).to include('No Users Yet Registered')
       end
     end
 
-    context 'when two players are registered' do
+    context 'when two users are registered' do
       let!(:users) { create_pair(:user) }
 
       it 'returns http status 200' do
