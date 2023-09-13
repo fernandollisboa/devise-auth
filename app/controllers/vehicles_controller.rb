@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class VehiclesController < ApplicationController
   def index
     @vehicles = Vehicle.all
