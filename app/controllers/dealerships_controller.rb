@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DealershipsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @dealerships = Dealership.all
   end
@@ -13,7 +15,7 @@ class DealershipsController < ApplicationController
     @dealership = Dealership.new(dealership_params)
 
     if @dealership.save
-      redirect_to dealerships_url
+      redirect_to dealerships_url, status: :created
     else
       render :edit
     end
