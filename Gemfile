@@ -42,6 +42,8 @@ gem 'rubocop'
 
 gem 'devise'
 
+gem 'pry', '~> 0.14.2'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
@@ -61,8 +63,6 @@ group :development, :test do
   gem 'faker'
   gem 'guard-rspec'
   gem 'rspec-rails'
-  gem 'factory_bot_rails'
-  gem 'faker'
   gem 'rubocop-factory_bot'
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
