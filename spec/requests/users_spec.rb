@@ -2,52 +2,58 @@
 
 require 'rails_helper'
 
-RSpec.describe 'User', type: :request do
+RSpec.describe 'Users', type: :request do
   describe 'GET /users' do
     context 'when no players are registered' do
       it 'returns http status 200' do
         get '/users'
 
-        expect(response).to have_http_status(:ok)
+        expect(response).to redirect_to new_user_session_path
       end
+    end
 
       it 'renders an empty list message', aggregate_failures: true do
         get '/users'
 
-        expect(response.body).to include('No Users Yet Registered')
+      before do
+        sign_in admin
       end
-    end
 
     context 'when two players are registered' do
       let!(:users) { create_pair(:user) }
 
-      it 'returns http status 200' do
-        get '/users'
+        it 'returns http status 200' do
+          get '/users'
 
-        expect(response).to have_http_status(:ok)
-      end
+          expect(response).to have_http_status(:ok)
+        end
 
-      it 'renders information about the users', aggregate_failures: true do
-        get '/users'
+        it 'renders information about the users', aggregate_failures: true do
+          get '/users'
 
-        users.each do |user|
-          expect(response.body).to include(user.name)
-          expect(response.body).to include(user.email)
+          users.each do |user|
+            expect(response.body).to include(user.name)
+            expect(response.body).to include(user.email)
+          end
         end
       end
     end
   end
 
   describe 'GET /users/:id' do
-    let(:user) { create(:user) }
+    context 'when the user is not authenticated' do
+      it 'redirects to login page' do
+        get('/users/1')
 
-    context 'when the user id does not exist' do
-      let(:id) { 0 }
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
 
-      it 'returns http status 404' do
-        get "/users/#{id}"
+    context 'when the user is authenticated as admin' do
+      let(:admin) { create(:user, :admin) }
 
-        expect(response).to have_http_status(:not_found)
+      before do
+        sign_in admin
       end
 
       it "renders message 'User Not Found'" do
@@ -57,21 +63,31 @@ RSpec.describe 'User', type: :request do
       end
     end
 
-    context 'when the user id exists' do
-      let!(:user) { create(:user) }
+          expect(response).to have_http_status(:not_found)
+        end
 
-      it 'returns a http status 200' do
-        get '/users'
+        it "renders message 'User Not Found'" do
+          get "/users/#{id}"
 
-        expect(response).to have_http_status(:ok)
+          expect(response.body).to include('User Not Found')
+        end
       end
 
-      it 'renders information about the user', aggregate_failures: true do
-        get '/users'
+      context 'when the user id exists' do
+        let!(:user) { create(:user) }
 
-        expect(response.body).to include(user.name)
-        expect(response.body).to include(user.email)
-        expect(response.body).to include(user.role)
+        it 'returns a http status 200' do
+          get "/users/#{user.id}"
+
+          expect(response).to have_http_status(:ok)
+        end
+
+        it 'renders information about the user', aggregate_failures: true do
+          get "/users/#{user.id}"
+
+          expect(response.body).to include(user.name)
+          expect(response.body).to include(user.role)
+        end
       end
     end
   end
@@ -140,14 +156,81 @@ RSpec.describe 'User', type: :request do
         }
       end
 
-      it 'returns http status 201' do
-        post('/users', params:)
-
-        expect(response).to have_http_status(:created)
-      end
-
       it 'creates a new user' do
         expect { post('/users', params:) }.to change { User.count }.by(1)
+      end
+    end
+  end
+
+  describe 'PATCH /users/:id' do
+    context 'when the user not authenticated' do
+      it 'redirects to login page' do
+        patch('/users')
+
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'when the user is authenticated as admin' do
+      let(:admin) { create(:user, :admin) }
+      let!(:user) { create(:user, :dealership) }
+
+      before do
+        sign_in admin
+      end
+
+      context 'when the attributes are invalid (empty attributes: name, email, current_password)' do
+        let(:params) do
+          {
+            user: {
+              id: user.id,
+              name: '',
+              role: ''
+            }
+          }
+        end
+
+        it 'returns status code 422' do
+          patch("/users/#{user.id}", params:)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'returns the error messages for the invalid attributtes', aggregate_failures: true do
+          patch("/users/#{user.id}", params:)
+
+          expect(response.body).to match(/Name can('|&#39;)t be blank/)
+          expect(response.body).to match(/Role can('|&#39;)t be blank/)
+        end
+      end
+
+      context 'when the attributes are valid', aggregate_failures: true do
+        let(:params) do
+          {
+            user: {
+              name: 'John the Doe',
+              role: 'admin'
+            }
+          }
+        end
+
+        it 'redirects to users page' do
+          patch("/users/#{user.id}", params:)
+
+          expect(response).to redirect_to users_path
+        end
+
+        it 'updates the user name' do
+          expect {
+            patch("/users/#{user.id}", params:)
+          }.to change { user.reload.name }.from(user.name).to params[:user][:name]
+        end
+
+        it 'updates the user role' do
+          expect {
+            patch("/users/#{user.id}", params:)
+          }.to change { user.reload.role }.from(user.role).to params[:user][:role]
+        end
       end
     end
   end
