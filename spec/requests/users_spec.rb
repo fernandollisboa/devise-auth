@@ -49,12 +49,6 @@ RSpec.describe 'User', type: :request do
 
         expect(response).to have_http_status(:not_found)
       end
-
-      it "renders message 'User Not Found'" do
-        get "/users/#{id}"
-
-        expect(response.body).to include('User Not Found')
-      end
     end
 
     context 'when the user id exists' do

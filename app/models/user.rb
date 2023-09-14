@@ -12,14 +12,6 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable, :validatable
 
-  def admin?
-    role == 'admin'
-  end
-
-  def dealership?
-    role == 'dealership'
-  end
-
   private
 
   def dealership_presence

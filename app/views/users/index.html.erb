@@ -13,7 +13,7 @@
             <ul>
               <li><p><%= user.email %></p></li>
               <li><p><%= user.role %></p></li>
-              <% if user.role == 'dealership' %>
+              <% if user.dealership? %>
                 <p>dealership id: <%= user.dealership_id %></p>
               <% end %>
             </ul>
