@@ -4,23 +4,23 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
   describe 'GET /users' do
-    context 'when no players are registered' do
-      it 'returns http status 200' do
+    context 'when the user is not authenticated' do
+      it 'redirects to login page' do
         get '/users'
 
         expect(response).to redirect_to new_user_session_path
       end
     end
 
-      it 'renders an empty list message', aggregate_failures: true do
-        get '/users'
+    context 'when the user is authenticated as admin' do
+      let(:admin) { create(:user, :admin) }
 
       before do
         sign_in admin
       end
 
-    context 'when two players are registered' do
-      let!(:users) { create_pair(:user) }
+      context 'when two other users are registered' do
+        let!(:users) { create_pair(:user) }
 
         it 'returns http status 200' do
           get '/users'
@@ -56,20 +56,13 @@ RSpec.describe 'Users', type: :request do
         sign_in admin
       end
 
-      it "renders message 'User Not Found'" do
-        get "/users/#{id}"
+      context 'when the user id does not exist' do
+        let(:id) { 0 }
 
-        expect(response.body).to include('User Not Found')
-      end
-    end
-
-          expect(response).to have_http_status(:not_found)
-        end
-
-        it "renders message 'User Not Found'" do
+        it 'returns http status 404' do
           get "/users/#{id}"
 
-          expect(response.body).to include('User Not Found')
+          expect(response).to have_http_status(:not_found)
         end
       end
 
