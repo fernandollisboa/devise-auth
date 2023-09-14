@@ -20,7 +20,7 @@ RSpec.describe 'Users', type: :request do
       end
 
       context 'when two other users are registered' do
-        let!(:users) { create_pair(:user) }
+        let!(:users) { create_pair(:user) do
 
         it 'returns http status 200' do
           get '/users'
