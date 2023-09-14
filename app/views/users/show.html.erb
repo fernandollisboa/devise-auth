@@ -1,7 +1,4 @@
 <h1>User#show</h1>
-<% if alert.present? %>
-  <p><%= alert %></p>
-<% else %>
+<% if @user.present? %>
   <%= render @user %>
 <% end%>
-
