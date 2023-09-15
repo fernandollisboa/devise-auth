@@ -59,4 +59,12 @@ class VehiclesController < ApplicationController
   def vehicle_params
     params.require(:vehicle).permit(:brand, :name, :model, :year, :comments)
   end
+
+  def resolve_dealership
+    if current_user.dealership?
+      current_user.dealership
+    else
+      Dealership.last
+    end
+  end
 end
