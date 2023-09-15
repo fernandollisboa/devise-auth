@@ -1,6 +1,8 @@
 # frozen-string-literal: true
 
 class UsersController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @users = User.all
 
@@ -22,7 +24,7 @@ class UsersController < ApplicationController
     redirect_to @user, status: :created
   end
 
-  def show
+  def update
     @user = User.find(params[:id])
 
     authorize @user
@@ -46,6 +48,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :role, :dealership_id)
+    params.require(:user).permit(:name, :role, :dealership_id)
   end
 end
