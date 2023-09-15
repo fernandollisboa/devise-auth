@@ -2,10 +2,8 @@
 
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
-
   rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
-
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private

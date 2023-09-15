@@ -8,6 +8,10 @@ class VehiclePolicy
     @vehicle = vehicle
   end
 
+  def new?
+    verify_user_role_dealership
+  end
+
   def index?
     true
   end
@@ -40,7 +44,7 @@ class VehiclePolicy
 
     def resolve
       if user.present? && user.dealership?
-        user.dealership.vehicles # scope.where()
+        scope.where(dealership_id: user.dealership_id)
       else
         scope.all
       end

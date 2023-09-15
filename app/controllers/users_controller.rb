@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     redirect_to @user, status: :created
   end
 
-  def update
+  def show
     @user = User.find(params[:id])
 
     authorize @user

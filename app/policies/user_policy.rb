@@ -23,25 +23,6 @@ class UserPolicy
     verify_user_role_admin
   end
 
-  class Scope
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
-    end
-
-    def resolve
-      if user.admin?
-        scope.all
-      else
-        []
-      end
-    end
-
-    private
-
-    attr_reader :user, :scope
-  end
-
   private
 
   def verify_user_role_admin
