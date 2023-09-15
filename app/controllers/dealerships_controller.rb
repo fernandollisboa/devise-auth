@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class DealershipsController < ApplicationController
-  before_action :authenticate_user!
-
   def index
     @dealerships = Dealership.all
 
