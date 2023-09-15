@@ -7,7 +7,7 @@ class CreateVehicle < ApplicationService
   end
 
   def call
-    vehicle.dealership = resolve_dealership
+    vehicle.dealership = creator.dealership
     vehicle.save!
 
     { data: vehicle, success: true }
@@ -16,12 +16,4 @@ class CreateVehicle < ApplicationService
   private
 
   attr_reader :vehicle, :creator
-
-  def resolve_dealership
-    if creator.dealership?
-      creator.dealership
-    else
-      Dealership.last
-    end
-  end
 end
