@@ -2,8 +2,6 @@
 
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
-  after_action :verify_authorized, except: :index
-  after_action :verify_policy_scoped, only: :index
 
   rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
@@ -17,11 +15,11 @@ class ApplicationController < ActionController::Base
   end
 
   def unprocessable_entity
-    render :new, status: :unprocessable_entity
+    render status: :unprocessable_entity
   end
 
   def user_not_authorized
     flash[:alert] = 'You are not authorized to perform this action.'
-    redirect_back(fallback_location: root_path)
+    redirect_back(fallback_location: new_user_session_path)
   end
 end

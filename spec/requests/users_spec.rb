@@ -57,8 +57,10 @@ RSpec.describe 'Users', type: :request do
 
   describe 'GET /users/:id' do
     context 'when the user is not authenticated' do
+      let!(:user) { create(:user) }
+
       it 'redirects to login page' do
-        get('/users/1')
+        get("/users/#{user.id}")
 
         expect(response).to redirect_to new_user_session_path
       end
