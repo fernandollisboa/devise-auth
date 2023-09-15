@@ -4,15 +4,21 @@ class VehiclesController < ApplicationController
   before_action :authenticate_user!, except: [:index]
 
   def index
-    @vehicles = Vehicle.all
+    @vehicles = policy_scope(Vehicle)
+
+    authorize @vehicles
   end
 
   def new
     @vehicle = Vehicle.new
+
+    authorize @vehicle
   end
 
   def create
     @vehicle = Vehicle.new(vehicle_params)
+
+    authorize @vehicle
 
     @vehicle.dealership = resolve_dealership
     if @vehicle.save
@@ -24,10 +30,14 @@ class VehiclesController < ApplicationController
 
   def edit
     @vehicle = Vehicle.find(params[:id])
+
+    authorize @vehicle
   end
 
   def update
     @vehicle = Vehicle.find(params[:id])
+
+    authorize @vehicle
 
     if @vehicle.update(vehicle_params)
       redirect_to vehicles_url
@@ -38,6 +48,8 @@ class VehiclesController < ApplicationController
 
   def destroy
     @vehicle = Vehicle.find(params[:id])
+
+    authorize @vehicle
 
     @vehicle.destroy
 
