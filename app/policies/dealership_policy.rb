@@ -12,6 +12,10 @@ class DealershipPolicy
     verify_user_role_admin
   end
 
+  def create?
+    verify_user_role_admin
+  end
+
   def show?
     verify_user_role_admin
   end
@@ -21,6 +25,10 @@ class DealershipPolicy
   end
 
   def update?
+    verify_user_role_admin
+  end
+
+  def destroy?
     verify_user_role_admin
   end
 

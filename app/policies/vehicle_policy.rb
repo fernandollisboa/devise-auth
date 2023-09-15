@@ -16,11 +16,19 @@ class VehiclePolicy
     verify_user_role_dealership
   end
 
+  def create?
+    verify_user_role_dealership
+  end
+
   def edit?
     verify_user_role_dealership
   end
 
   def update?
+    verify_user_role_dealership
+  end
+
+  def destroy?
     verify_user_role_dealership
   end
 
@@ -34,7 +42,7 @@ class VehiclePolicy
       if user.present? && user.dealership?
         user.dealership.vehicles # scope.where()
       else
-        []
+        scope.all
       end
     end
 
