@@ -11,5 +11,9 @@ FactoryBot.define do
     trait :admin do
       role { :admin }
     end
+
+    trait :dealership do
+      role { :dealership }
+    end
   end
 end
