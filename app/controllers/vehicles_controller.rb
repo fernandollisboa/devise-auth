@@ -16,12 +16,11 @@ class VehiclesController < ApplicationController
   end
 
   def create
-    @vehicle = Vehicle.new(vehicle_params)
+    result = CreateVehicle.call(vehicle_params:, creator: current_user)
 
-    authorize @vehicle
-
-    @vehicle.dealership = resolve_dealership
-    if @vehicle.save
+    if result[:success]
+      @vehicle = result[:data]
+      authorize @vehicle
       redirect_to vehicles_url, status: :created
     else
       render :new
@@ -50,7 +49,6 @@ class VehiclesController < ApplicationController
     @vehicle = Vehicle.find(params[:id])
 
     authorize @vehicle
-
     @vehicle.destroy
 
     redirect_to vehicles_url
@@ -60,13 +58,5 @@ class VehiclesController < ApplicationController
 
   def vehicle_params
     params.require(:vehicle).permit(:brand, :name, :model, :year, :comments)
-  end
-
-  def resolve_dealership
-    if current_user.dealership?
-      current_user.dealership
-    else
-      Dealership.last
-    end
   end
 end
