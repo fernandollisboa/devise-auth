@@ -1,0 +1,34 @@
+<h2>Sign up</h2>
+
+<%= form_with model: @user do |f| %>
+  <section>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
+    <% if @minimum_password_length %>
+      <br />
+      <em><%= @minimum_password_length %> characters minimum</em>
+    <% end %>
+
+    <%= f.label :role %>
+    <%= f.select :role, [['admin', :admin], ['dealership', :dealership]] %>
+
+    <%= f.label :dealership_id %>
+    <%= f.text_field :dealership_id %>
+
+    <%= f.submit "Save" %>
+    <section>
+      <%= render "users/shared/error_messages", resource: @user %>
+    </section>
+  </section>
+<% end %>
+
+

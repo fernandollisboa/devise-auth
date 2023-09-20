@@ -1,0 +1,22 @@
+<h1>Users#index</h1>
+
+<section>
+  <% if @users.empty? %>
+    <p>"No Users Yet Registered"</p>
+  <% else %>
+    <ul>
+        <% @users.each do |user| %>
+          <li>
+            <p><%= user.name %></p>
+            <ul>
+              <li><p><%= user.email %></p></li>
+              <li><p><%= user.role %></p></li>
+              <% if user.dealership? %>
+                <p>dealership id: <%= user.dealership_id %></p>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+    </ul>
+  <% end %>
+</section>

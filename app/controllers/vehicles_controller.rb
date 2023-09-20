@@ -1,20 +1,27 @@
 # frozen_string_literal: true
 
 class VehiclesController < ApplicationController
+  before_action :authenticate_user!, except: [:index]
+
   def index
-    @vehicles = Vehicle.all
+    @vehicles = policy_scope(Vehicle)
+
+    authorize @vehicles
   end
 
   def new
     @vehicle = Vehicle.new
+
+    authorize @vehicle
   end
 
   def create
-    @vehicle = Vehicle.new(vehicle_params)
+    result = CreateVehicle.call(vehicle_params:, creator: current_user)
 
-    @vehicle.dealership = Dealership.last
-    if @vehicle.save
-      redirect_to vehicles_url
+    if result[:success]
+      @vehicle = result[:data]
+      authorize @vehicle
+      redirect_to vehicles_url, status: :created
     else
       render :new
     end
@@ -22,10 +29,14 @@ class VehiclesController < ApplicationController
 
   def edit
     @vehicle = Vehicle.find(params[:id])
+
+    authorize @vehicle
   end
 
   def update
     @vehicle = Vehicle.find(params[:id])
+
+    authorize @vehicle
 
     if @vehicle.update(vehicle_params)
       redirect_to vehicles_url
@@ -37,6 +48,7 @@ class VehiclesController < ApplicationController
   def destroy
     @vehicle = Vehicle.find(params[:id])
 
+    authorize @vehicle
     @vehicle.destroy
 
     redirect_to vehicles_url
@@ -46,5 +58,13 @@ class VehiclesController < ApplicationController
 
   def vehicle_params
     params.require(:vehicle).permit(:brand, :name, :model, :year, :comments)
+  end
+
+  def resolve_dealership
+    if current_user.dealership?
+      current_user.dealership
+    else
+      Dealership.last
+    end
   end
 end

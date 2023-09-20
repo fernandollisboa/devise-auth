@@ -1,0 +1,5 @@
+<%- if user_session %>
+  <%= link_to "Sign out", destroy_user_session_path, data: { "turbo-method": :delete } %><br />
+<% elsif controller_name != 'sessions' %>
+  <%= link_to "Log in", new_user_session_path %><br />
+<% end %>

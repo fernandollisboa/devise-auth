@@ -1,0 +1,21 @@
+<%= form_with model: @user do |f| %>
+  <section>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+
+    <%= f.label :role %>
+    <%= f.select :role, [['admin', :admin], ['dealership', :dealership]] %>
+
+    <%= f.label :dealership_id %>
+    <%= f.text_field :dealership_id %>
+
+    <%= f.submit "Save" %>
+    <section>
+      <%= render "users/shared/error_messages", resource: @user %>
+    </section>
+  </section>
+<% end %>
+

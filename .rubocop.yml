@@ -20,6 +20,8 @@ Style/BlockDelimiters:
   EnforcedStyle: braces_for_chaining
 Style/GuardClause:
   Enabled: false
+Style/ConditionalAssignment:
+  Enabled: false
 
 Lint/AmbiguousBlockAssociation:
   Exclude:
