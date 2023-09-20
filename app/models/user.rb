@@ -4,7 +4,6 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :role, presence: true
   validates :email, uniqueness: true
-  validates :password, presence: true, confirmation: true
   enum :role, admin: 'admin', dealership: 'dealership'
   validate :dealership_presence, if: :dealership?
 
