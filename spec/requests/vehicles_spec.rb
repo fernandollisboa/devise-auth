@@ -38,11 +38,11 @@ describe 'Vehicle', type: :request do
       end
     end
 
-    context 'when the user is authenticated as admin' do
-      let(:admin) { create(:user, :admin) }
+    context 'when the user is authenticated as dealership' do
+      let(:dealership) { create(:user, :dealership) }
 
       before do
-        sign_in admin
+        sign_in dealership
       end
 
       it 'returns http status 201' do
@@ -69,8 +69,8 @@ describe 'Vehicle', type: :request do
       end
     end
 
-    context 'when the user is authenticated as admin' do
-      let(:admin) { create(:user, :admin) }
+    context 'when the user is authenticated as dealership' do
+      let(:dealership) { create(:user, :dealership) }
       let(:params) do
         {
           vehicle: {
@@ -84,7 +84,7 @@ describe 'Vehicle', type: :request do
       end
 
       before do
-        sign_in admin
+        sign_in dealership
       end
 
       it 'redirects to vehicles page' do
@@ -106,11 +106,11 @@ describe 'Vehicle', type: :request do
       end
     end
 
-    context 'when the user is authenticated as admin' do
-      let(:admin) { create(:user, :admin) }
+    context 'when the user is authenticated as dealership' do
+      let(:dealership) { create(:user, :dealership) }
 
       before do
-        sign_in admin
+        sign_in dealership
       end
 
       it 'redirects to vehicles page' do

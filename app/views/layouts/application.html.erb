@@ -14,7 +14,7 @@
     <div id="some-div" data-no-turbolink>
     <section>
       <% if user_signed_in? %>
-        <p> Hello, <%= current_user.name %><p>
+        <p> Hello, <%= "#{current_user.name} (#{current_user.role})"%><p>
       <% end%>
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>
